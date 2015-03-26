@@ -1,0 +1,21 @@
+nvrWatchDirectory: /home/me
+
+email:
+  type: gmail
+  username: your_username
+  password: your_password
+  from: you@me.com
+  to: whoever@theirdomain.com
+  subject: Be Clever
+  message: Email Body Default Message
+
+logging:
+  level: DEBUG
+  appenders:
+    - type: file
+      currentLogFilename: /var/log/NVR.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: /var/log/NVR-%d.log
+      archivedFileCount: 15
+      timeZone: UTC
