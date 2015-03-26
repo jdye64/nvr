@@ -16,6 +16,10 @@
         <cron4j.version>2.2.5</cron4j.version>
         <testng.version>6.8.21</testng.version>
         <mysql.connector.version>5.1.34</mysql.connector.version>
+        <vessl.version>1.0.52</vessl.version>
+        <dbcp.version>2.1</dbcp.version>
+        <cp.version>0.9.5</cp.version>
+        <jmdns.version>3.4.1</jmdns.version>
     </properties>
 
     <dependencies>
@@ -68,6 +72,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${cp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.jmdns</groupId>
+            <artifactId>jmdns</artifactId>
+            <version>${jmdns.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
