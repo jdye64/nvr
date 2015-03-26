@@ -9,6 +9,8 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Network Video Recorder (NVR)
@@ -16,6 +18,8 @@ import org.skife.jdbi.v2.DBI;
  * Created by jeremydyer on 3/13/15.
  */
 public class NVRApplication extends Application<NVRConfiguration> {
+
+    private static final Logger logger = LoggerFactory.getLogger(NVRApplication.class);
 
     public static void main(String[] args) throws Exception {
         new NVRApplication().run(args);
@@ -37,6 +41,7 @@ public class NVRApplication extends Application<NVRConfiguration> {
     @Override
     public void run(NVRConfiguration configuration,
                     Environment environment) {
+        logger.info(NVRApplication.class.getName() + " Starting");
         final VideoStream resource = new VideoStream();
         environment.jersey().register(resource);
 
