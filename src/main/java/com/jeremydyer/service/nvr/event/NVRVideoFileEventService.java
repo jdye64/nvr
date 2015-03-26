@@ -53,6 +53,7 @@ public class NVRVideoFileEventService
         //Creates a new DirectoryWatcher instance to monitor the NVR base directory.
         try {
             DirectoryWatcher nvrBaseDirWatcher = new DirectoryWatcher(Paths.get(this.nvrConfiguration.getNvrVideoDir()), true, this);
+            nvrBaseDirWatcher.run();
             for(;;) {
                 Thread.sleep(300000);
             }
