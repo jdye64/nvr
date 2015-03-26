@@ -5,8 +5,10 @@ import com.codahale.metrics.MetricRegistry;
 import com.jeremydyer.cli.*;
 import com.jeremydyer.resource.VideoStream;
 import io.dropwizard.Application;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.skife.jdbi.v2.DBI;
 
 /**
  * Network Video Recorder (NVR)
@@ -41,5 +43,8 @@ public class NVRApplication extends Application<NVRConfiguration> {
         MetricRegistry metricsRegistry = new MetricRegistry();
         final JmxReporter reporter = JmxReporter.forRegistry(metricsRegistry).build();
         reporter.start();
+
+        final DBIFactory factory = new DBIFactory();
+        final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
     }
 }

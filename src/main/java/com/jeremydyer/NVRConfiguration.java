@@ -3,6 +3,7 @@ package com.jeremydyer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jeremydyer.conf.email.EmailFactory;
 import io.dropwizard.Configuration;
+import io.dropwizard.db.DataSourceFactory;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
@@ -25,6 +26,15 @@ public class NVRConfiguration extends Configuration {
     @NotNull
     @Valid
     private EmailFactory email;
+
+    @Valid
+    @NotNull
+    private DataSourceFactory database = new DataSourceFactory();
+
+    @JsonProperty("database")
+    public DataSourceFactory getDataSourceFactory() {
+        return database;
+    }
 
     public String getNvrVideoDir() {
         return nvrVideoDir;
