@@ -23,10 +23,10 @@ public class StorageManager {
      * Archives the files in the primary storage location to the Archive storage location
      */
     public void archiveFiles() {
-        System.out.println("Archiving files in: " + this.nvrConfiguration.getNvrWatchDirectory().toString());
+        System.out.println("Archiving files in: " + this.nvrConfiguration.getNvrVideoDir().toString());
 
         List<String> fileNames = new ArrayList<>();
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(this.nvrConfiguration.getNvrWatchDirectory().toString()))) {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(this.nvrConfiguration.getNvrVideoDir().toString()))) {
 
             for (Path path : directoryStream) {
                 System.out.println("Path: " + path.toString());
@@ -47,7 +47,7 @@ public class StorageManager {
         final List<Path> videoFiles = new ArrayList<>();
 
         try {
-            Files.walkFileTree(Paths.get(this.nvrConfiguration.getNvrWatchDirectory()), new SimpleFileVisitor<Path>() {
+            Files.walkFileTree(Paths.get(this.nvrConfiguration.getNvrVideoDir()), new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
                         throws IOException

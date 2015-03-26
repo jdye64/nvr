@@ -17,22 +17,21 @@ import javax.validation.constraints.NotNull;
  */
 public class NVRConfiguration extends Configuration {
 
+    @JsonProperty
     @NotEmpty
-    private String nvrWatchDirectory;
+    private String nvrVideoDir; //Base directory where the NVR writes the video files to.
 
     @JsonProperty
     @NotNull
     @Valid
     private EmailFactory email;
 
-    @JsonProperty
-    public String getNvrWatchDirectory() {
-        return nvrWatchDirectory;
+    public String getNvrVideoDir() {
+        return nvrVideoDir;
     }
 
-    @JsonProperty
-    public void setNvrWatchDirectory(String nvrWatchDirectory) {
-        this.nvrWatchDirectory = nvrWatchDirectory;
+    public void setNvrVideoDir(String nvrVideoDir) {
+        this.nvrVideoDir = nvrVideoDir;
     }
 
     public EmailFactory getEmail() {

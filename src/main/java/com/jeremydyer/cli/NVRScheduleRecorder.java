@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class NVRScheduleRecorder
         extends ConfiguredCommand<NVRConfiguration> {
 
-    final static Logger logger = LoggerFactory.getLogger(NVREventWatcher.class);
+    final static Logger logger = LoggerFactory.getLogger(NVRScheduleRecorder.class);
 
     public NVRScheduleRecorder(String name, String description) {
         super(name, description);

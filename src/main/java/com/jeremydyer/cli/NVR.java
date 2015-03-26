@@ -1,8 +1,8 @@
 package com.jeremydyer.cli;
 
 import com.jeremydyer.NVRConfiguration;
+import com.jeremydyer.service.nvr.event.NVRVideoFileEventService;
 import com.jeremydyer.service.storage.DailyStorageReportRunnable;
-import com.jeremydyer.service.storage.StorageMetricsRunnable;
 import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;
 import it.sauronsoftware.cron4j.Scheduler;
@@ -25,14 +25,21 @@ public class NVR
     }
 
     @Override
-    protected void run(Bootstrap<NVRConfiguration> dyerConfigurationBootstrap, Namespace namespace, NVRConfiguration nvrConfiguration) throws Exception {
+    protected void run(Bootstrap<NVRConfiguration> nvrConfigurationBootstrap, Namespace namespace, NVRConfiguration nvrConfiguration) throws Exception {
         // Creates a Scheduler instance.
         Scheduler s = new Scheduler();
 
+        //*** Start all continuously running threads ***
+
+        //Uses java.nio to watch the NVR base directory for file events
+        NVRVideoFileEventService fes = new NVRVideoFileEventService(nvrConfiguration);
+        fes.run();
+
+        //*** End continuously running threads ***
+
         // Schedule all of the NVR tasks
-        s.schedule("* * * * *", new StorageMetricsRunnable(nvrConfiguration));  //Every minute
-        //s.schedule("0 8 * * *", new DailyStorageReportRunnable(nvrConfiguration));
-        s.schedule("* * * * *", new DailyStorageReportRunnable(nvrConfiguration));
+        //s.schedule("* * * * *", new StorageMetricsRunnable(nvrConfiguration));  //Every minute
+        s.schedule("0 8 * * *", new DailyStorageReportRunnable(nvrConfiguration));
 
         // Starts the scheduler.
         s.start();

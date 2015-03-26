@@ -31,7 +31,7 @@ public class DailyStorageReportRunnable
     @Override
     public void run() {
         logger.debug("DailyStorageReportRunnable.run()");
-        File f = new File(nvrConfiguration.getNvrWatchDirectory());
+        File f = new File(nvrConfiguration.getNvrVideoDir());
         StringBuilder sb = new StringBuilder();
         sb.append(new Date());
         sb.append(" Total Usable Space: ");

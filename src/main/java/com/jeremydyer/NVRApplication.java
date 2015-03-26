@@ -27,7 +27,6 @@ public class NVRApplication extends Application<NVRConfiguration> {
     @Override
     public void initialize(Bootstrap<NVRConfiguration> bootstrap) {
         bootstrap.addCommand(new NVR("NVR", "Network Video Recorder Full Stack"));
-        bootstrap.addCommand(new NVREventWatcher("NVREventWatcher", "Watches the FTP server for IP Camera recording events"));
         bootstrap.addCommand(new NVRScheduleRecorder("NVRScheduleRecorder", "Records video from IP cameras based on a time schedule"));
         bootstrap.addCommand(new NVRStorageGrimReaper("NVRStorageGrimReaper", "Reclaims storage on the main storage device"));
         bootstrap.addCommand(new NVRBatchBuildVideoIndex("NVRBatchBuildVideoIndex", "Examines all of the current video files and rebuilds the video index database"));

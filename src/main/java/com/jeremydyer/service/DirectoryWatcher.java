@@ -1,8 +1,9 @@
 package com.jeremydyer.service;
 
-/**
- * Created by jeremydyer on 3/14/15.
- */
+import com.jeremydyer.service.nvr.event.NVRVideoFileEventService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.file.*;
 import static java.nio.file.StandardWatchEventKinds.*;
 import static java.nio.file.LinkOption.*;
@@ -12,16 +13,19 @@ import java.util.*;
 
 /**
  * Example to watch a directory (or tree) for changes to files.
+ *
+ * Created by jeremydyer on 3/14/15.
  */
-
 public class DirectoryWatcher
     implements Runnable {
+
+    private static final Logger logger = LoggerFactory.getLogger(DirectoryWatcher.class);
 
     private final WatchService watcher;
     private final Map<WatchKey,Path> keys;
     private final boolean recursive;
     private boolean trace = false;
-    private NVRFileEventService fileEventService = null;
+    private NVRVideoFileEventService fileEventService = null;
 
     @SuppressWarnings("unchecked")
     public static <T> WatchEvent<T> cast(WatchEvent<?> event) {
@@ -36,10 +40,10 @@ public class DirectoryWatcher
         if (trace) {
             Path prev = keys.get(key);
             if (prev == null) {
-                System.out.format("register: %s\n", dir);
+                logger.debug("register: %s\n", dir);
             } else {
                 if (!dir.equals(prev)) {
-                    System.out.format("update: %s -> %s\n", prev, dir);
+                    logger.debug("update: %s -> %s\n", prev, dir);
                 }
             }
         }
@@ -66,16 +70,16 @@ public class DirectoryWatcher
     /**
      * Creates a WatchService and registers the given directory
      */
-    public DirectoryWatcher(Path dir, boolean recursive, NVRFileEventService fileEventService) throws IOException {
+    public DirectoryWatcher(Path dir, boolean recursive, NVRVideoFileEventService fileEventService) throws IOException {
         this.watcher = FileSystems.getDefault().newWatchService();
         this.keys = new HashMap<WatchKey,Path>();
         this.recursive = recursive;
         this.fileEventService = fileEventService;
 
         if (recursive) {
-            System.out.format("Scanning %s ...\n", dir);
+            logger.debug("Scanning %s ...\n", dir);
             registerAll(dir);
-            System.out.println("Done.");
+            logger.debug("Done.");
         } else {
             register(dir);
         }
@@ -98,7 +102,7 @@ public class DirectoryWatcher
 
             Path dir = keys.get(key);
             if (dir == null) {
-                System.err.println("WatchKey not recognized!!");
+                logger.error("WatchKey not recognized!!");
                 continue;
             }
 
@@ -116,9 +120,6 @@ public class DirectoryWatcher
                 WatchEvent<Path> ev = cast(event);
                 Path name = ev.context();
                 Path child = dir.resolve(name);
-
-                // print out event
-                //System.out.format("%s: %s\n", event.kind().name(), child);
 
                 // if directory is created, and watching recursively, then
                 // register it and its sub-directories

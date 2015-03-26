@@ -22,7 +22,7 @@ import java.util.List;
 public class NVRBatchBuildVideoIndex
         extends ConfiguredCommand<NVRConfiguration> {
 
-    final static Logger logger = LoggerFactory.getLogger(NVREventWatcher.class);
+    final static Logger logger = LoggerFactory.getLogger(NVRBatchBuildVideoIndex.class);
 
     public NVRBatchBuildVideoIndex(String name, String description) {
         super(name, description);

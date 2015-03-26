@@ -28,7 +28,7 @@ public class StorageMetricsRunnable
     @Override
     public void run() {
         logger.debug("StorageMetricsRunnable.run()");
-        File f = new File(nvrConfiguration.getNvrWatchDirectory());
+        File f = new File(nvrConfiguration.getNvrVideoDir());
         logger.info(new Date() + " Total Usable Space: " + f.getUsableSpace() / (1024 * 1024 * 1024) + " GB for: " + f.getAbsolutePath());
         this.em.sendEmail("Test message!");
     }

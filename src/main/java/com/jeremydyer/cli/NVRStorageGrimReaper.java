@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class NVRStorageGrimReaper
         extends ConfiguredCommand<NVRConfiguration> {
 
-    final static Logger logger = LoggerFactory.getLogger(NVREventWatcher.class);
+    final static Logger logger = LoggerFactory.getLogger(NVRStorageGrimReaper.class);
 
     public NVRStorageGrimReaper(String name, String description) {
         super(name, description);
