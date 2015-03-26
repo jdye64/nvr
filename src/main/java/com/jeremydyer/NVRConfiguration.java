@@ -27,11 +27,11 @@ public class NVRConfiguration extends Configuration {
     @Valid
     private EmailFactory email;
 
+    @JsonProperty("database")
     @Valid
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
 
-    @JsonProperty("database")
     public DataSourceFactory getDataSourceFactory() {
         return database;
     }
