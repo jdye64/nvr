@@ -109,6 +109,7 @@ public class DirectoryWatcher
             for (WatchEvent<?> event: key.pollEvents()) {
                 WatchEvent.Kind kind = event.kind();
 
+                logger.info("File event: ");
                 fileEventService.handleEvent(event, dir);
 
                 // TBD - provide example of how OVERFLOW event is handled
