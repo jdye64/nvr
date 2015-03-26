@@ -24,7 +24,7 @@ public class VideoIndexerHandler
 
     @Override
     public void modified(Path path) {
-        logger.info(this.getClass().getName() + " modified " + path.toString());
+        //Not interested ...
     }
 
     @Override
