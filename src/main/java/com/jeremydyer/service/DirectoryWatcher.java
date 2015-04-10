@@ -65,6 +65,8 @@ public class DirectoryWatcher
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
                     throws IOException
             {
+                System.out.println("PreVisitDirectory: " + dir.toString());
+
                 register(dir);
                 return FileVisitResult.CONTINUE;
             }
