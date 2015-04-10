@@ -1,16 +1,32 @@
 package com.jeremydyer.core.audio;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by jeremydyer on 3/18/15.
  */
 public class AudioEncoding {
 
+    @JsonProperty("Bitrate")
     private int bitrate;
+
+    @JsonProperty("Compression")
     private String compression;
+
+    @JsonProperty("Depth")
     private int depth;
+
+    @JsonProperty("Frequency")
     private int frequency;
+
+    @JsonProperty("Mode")
     private int mode;
+
+    @JsonProperty("Pack")
     private String pack;
+
+    //Default constructor to satisfy Jackson ...
+    public AudioEncoding() {}
 
     public AudioEncoding(int bitrate, String compression, int depth, int frequency, int mode, String pack) {
         this.bitrate = bitrate;

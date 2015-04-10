@@ -1,27 +1,33 @@
 package com.jeremydyer.core;
 
-import java.nio.file.Path;
-
 /**
  * Created by jeremydyer on 3/18/15.
  */
 public class Video {
 
-    private Path path;
+    private long id;
+    private String fullFileName;
     private IDX idx;
     private boolean motionDetectEvent = false;
 
-
-    public Video(Path path) {
-        this.path = path;
+    public Video(String fullFileName) {
+        this.fullFileName = fullFileName;
     }
 
-    public Path getPath() {
-        return path;
+    public long getId() {
+        return id;
     }
 
-    public void setPath(Path path) {
-        this.path = path;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFullFileName() {
+        return fullFileName;
+    }
+
+    public void setFullFileName(String fullFileName) {
+        this.fullFileName = fullFileName;
     }
 
     public IDX getIdx() {
@@ -41,6 +47,6 @@ public class Video {
     }
 
     public String toString() {
-        return String.format("Video[path: %s, motionDetectEvent: %s, %s]", path, motionDetectEvent, idx);
+        return String.format("Video[fullFileName: %s, motionDetectEvent: %s, %s]", fullFileName, motionDetectEvent, idx);
     }
 }

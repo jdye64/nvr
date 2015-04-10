@@ -27,14 +27,15 @@ public class NVRConfiguration extends Configuration {
     @Valid
     private EmailFactory email;
 
-    @JsonProperty("database")
-    @Valid
-    @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
-
-    public DataSourceFactory getDataSourceFactory() {
-        return database;
-    }
+    //TODO: For now i'm just going to use an in memory DB backed by a simple file. I imagine there will be lots of changes and once that settles down I will move to a DB
+//    @JsonProperty("database")
+//    @Valid
+//    @NotNull
+//    private DataSourceFactory database = new DataSourceFactory();
+//
+//    public DataSourceFactory getDataSourceFactory() {
+//        return database;
+//    }
 
     public String getNvrVideoDir() {
         return nvrVideoDir;

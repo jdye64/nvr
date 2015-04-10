@@ -2,10 +2,12 @@ package com.jeremydyer.service.nvr.event;
 
 import com.jeremydyer.NVRConfiguration;
 import com.jeremydyer.core.Video;
+import com.jeremydyer.dao.VideoDAO;
 import com.jeremydyer.service.DirectoryWatcher;
 import com.jeremydyer.service.VideoConversionService;
 import com.jeremydyer.service.nvr.event.handler.VideoFileEventHandler;
 import com.jeremydyer.service.nvr.event.handler.impl.MotionVideoFileEventHandler;
+import com.jeremydyer.service.nvr.event.handler.impl.UberHandler;
 import com.jeremydyer.service.nvr.event.handler.impl.VideoIndexerHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +36,19 @@ public class NVRVideoFileEventService
 
     private VideoConversionService videoConversionService = VideoConversionService.getInstance();
     private NVRConfiguration nvrConfiguration = null;
+    private VideoDAO videoDAO = null;
 
     private List<VideoFileEventHandler> handlers = null;
 
-    public NVRVideoFileEventService(NVRConfiguration nvrConfiguration) {
+    public NVRVideoFileEventService(NVRConfiguration nvrConfiguration, VideoDAO videoDAO) {
+
+        this.videoDAO = videoDAO;
+
        //TODO: This smells bad. Prefer some sort of dependency injection later.
        handlers = new ArrayList<>();
-       handlers.add(new MotionVideoFileEventHandler());
-       handlers.add(new VideoIndexerHandler());
+       //handlers.add(new MotionVideoFileEventHandler());
+       //handlers.add(new VideoIndexerHandler());
+        handlers.add(new UberHandler(this.videoDAO));
 
        this.nvrConfiguration = nvrConfiguration;
     }

@@ -12,13 +12,36 @@ import java.nio.file.Paths;
 public class DahuaFileNameUtil {
 
     /**
+     * Determines if the Path is a Dahua IP camera .dav file.
      *
-     * @param videoPath
+     * @param fullFileName
+     *  Path to the file in question.
+     *
+     * @return
+     *  True if .dav and false otherwise.
+     */
+    public static boolean isDavFile(String fullFileName) {
+        if (fullFileName != null) {
+            if (fullFileName.endsWith(".dav")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks to make sure that a video is a dav file and motion event. Take not the file must also be a .dav file
+     * for this to return true!
+     *
+     * @param fullFileName
      * @return
      */
-    public static boolean isMotionEvent(Path videoPath) {
-        if (videoPath != null) {
-            if (videoPath.toString().contains("[M]")) {
+    public static boolean isMotionEvent(String fullFileName) {
+        if (fullFileName != null) {
+            if (fullFileName.contains("[M]") && isDavFile(fullFileName)) {
                 return true;
             } else {
                 return false;
@@ -27,14 +50,10 @@ public class DahuaFileNameUtil {
         return false;
     }
 
-    public static Path idxPathForVideoPath(Path videoPath) {
-        if (videoPath != null) {
-            Path idx = Paths.get(FilenameUtils.removeExtension(videoPath.toString()) + ".idx");
-            if (Files.exists(idx)) {
-                return idx;
-            } else {
-                return null;
-            }
+    public static Path idxPathForVideoPath(String fullFileName) {
+        if (fullFileName != null && isDavFile(fullFileName)) {
+            Path idx = Paths.get(FilenameUtils.removeExtension(fullFileName) + ".idx");
+            return idx;
         } else {
             return null;
         }

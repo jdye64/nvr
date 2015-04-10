@@ -1,6 +1,8 @@
 package com.jeremydyer.service;
 
 import com.jeremydyer.core.Video;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  */
 public class VideoConversionService {
 
+    private static final Logger logger = LoggerFactory.getLogger(VideoConversionService.class);
     private static VideoConversionService instance = null;
 
     protected VideoConversionService() {
@@ -69,27 +72,33 @@ public class VideoConversionService {
         @Override
         public void run() {
 
-            //Builds the Process that will be used to convert the .dav file to .mp4
-            String outputFile = dav.getPath().toFile().getParent() + File.separator + dav.getPath().toFile().getName().replace(".dav", "") + ".mp4";
-            ProcessBuilder pb = new ProcessBuilder("ffmpeg", "-y", "-i", dav.getPath().toString(), "-vcodec", "libx264", "-crf", "24", outputFile);
-            pb.directory(dav.getPath().getParent().toFile());
+            //Create the File object from the String fullName
+            File origFile = new File(dav.getFullFileName());
+            if (origFile != null && origFile.exists()) {
+                //Builds the Process that will be used to convert the .dav file to .mp4
+                String outputFile = origFile.getParent() + File.separator + origFile.getName().replace(".dav", ".mp4");
+                ProcessBuilder pb = new ProcessBuilder("ffmpeg", "-y", "-i", dav.getFullFileName(), "-vcodec", "libx264", "-crf", "24", outputFile);
+                pb.directory(origFile.getParentFile());
 
-            System.out.println("Running FFMPEG thread for Video: " + dav.getPath().toString() + " -> " + outputFile);
-            try {
-                Process p = pb.start();
-                p.waitFor();
+                System.out.println("Running FFMPEG thread for Video: " + dav.getFullFileName() + " -> " + outputFile);
+                try {
+                    Process p = pb.start();
+                    p.waitFor();
 
-                //Now delete the original .dav file since it is no longer needed
-                if (dav.getPath().toFile().delete()) {
-                    System.out.println("Successfully deleted: " + dav.getPath().toString());
-                } else {
-                    System.out.println("Failed to delete: " + dav.getPath().toString());
+                    //Now delete the original .dav file since it is no longer needed
+                    if (origFile.delete()) {
+                        System.out.println("Successfully deleted: " + dav.getFullFileName());
+                    } else {
+                        System.out.println("Failed to delete: " + dav.getFullFileName());
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } else {
+                logger.warn("Dav original file could not be found: " + dav.getFullFileName());
             }
 
             //After processing is complete ...

@@ -1,8 +1,11 @@
 package com.jeremydyer.cli;
 
 import com.jeremydyer.NVRConfiguration;
+import com.jeremydyer.dao.VideoDAO;
+import com.jeremydyer.dao.impl.InMemoryVideoDAOImpl;
 import com.jeremydyer.service.nvr.event.NVRVideoFileEventService;
 import com.jeremydyer.service.storage.DailyStorageReportRunnable;
+import com.jeremydyer.service.storage.StorageMetricsRunnable;
 import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;
 import it.sauronsoftware.cron4j.Scheduler;
@@ -29,16 +32,19 @@ public class NVR
         // Creates a Scheduler instance.
         Scheduler s = new Scheduler();
 
+        //Creates the global application instance objects.
+        VideoDAO videoDAO = new InMemoryVideoDAOImpl();
+
         //*** Start all continuously running threads ***
 
         //Uses java.nio to watch the NVR base directory for file events
-        NVRVideoFileEventService fes = new NVRVideoFileEventService(nvrConfiguration);
+        NVRVideoFileEventService fes = new NVRVideoFileEventService(nvrConfiguration, videoDAO);
         fes.run();
 
         //*** End continuously running threads ***
 
         // Schedule all of the NVR tasks
-        //s.schedule("* * * * *", new StorageMetricsRunnable(nvrConfiguration));  //Every minute
+        s.schedule("* * * * *", new StorageMetricsRunnable(nvrConfiguration));  //Every minute
         s.schedule("0 8 * * *", new DailyStorageReportRunnable(nvrConfiguration));
 
         // Starts the scheduler.

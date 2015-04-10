@@ -13,9 +13,7 @@ public class IDX {
     private Path idxPath;
 
     //IDX File event information
-    private String eventAction;
-    private int eventIndex;
-    private String eventName;
+    private DahuaIDXEvent idxEvent;
 
     //IDX File encoding information
     private boolean audioEnabled;
@@ -24,7 +22,7 @@ public class IDX {
     private VideoEncoding videoEncoding;
 
     public String toString() {
-        return String.format("IDX[path: %s, eventAction: %s, eventIndex: %s, eventName: %s]", idxPath, eventAction, eventIndex, eventName);
+        return String.format("IDX[path: %s, idxEvent: %s]", idxPath, idxEvent);
     }
 
     public IDX() {
@@ -38,28 +36,12 @@ public class IDX {
         this.idxPath = idxPath;
     }
 
-    public String getEventAction() {
-        return eventAction;
+    public DahuaIDXEvent getIdxEvent() {
+        return idxEvent;
     }
 
-    public void setEventAction(String eventAction) {
-        this.eventAction = eventAction;
-    }
-
-    public int getEventIndex() {
-        return eventIndex;
-    }
-
-    public void setEventIndex(int eventIndex) {
-        this.eventIndex = eventIndex;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setIdxEvent(DahuaIDXEvent idxEvent) {
+        this.idxEvent = idxEvent;
     }
 
     public boolean isAudioEnabled() {

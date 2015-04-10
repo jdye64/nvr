@@ -49,7 +49,7 @@ public class NVRApplication extends Application<NVRConfiguration> {
         final JmxReporter reporter = JmxReporter.forRegistry(metricsRegistry).build();
         reporter.start();
 
-        final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
+        //final DBIFactory factory = new DBIFactory();
+        //final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
     }
 }

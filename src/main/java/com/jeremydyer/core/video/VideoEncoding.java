@@ -1,22 +1,50 @@
 package com.jeremydyer.core.video;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by jeremydyer on 3/18/15.
  */
 public class VideoEncoding {
 
+    @JsonProperty("BitRate")
     private int bitrate;
-    private String bitrateControl;
-    private String compression;
+
+    @JsonProperty("BitRateControl")
+    private String bitrateControl;  //EX: VBR or CBR
+
+    @JsonProperty("Compression")
+    private String compression;     //EX: H.264
+
+    @JsonProperty("CustomResolutionName")
     private String customResolutionName;
+
+    @JsonProperty("FPS")
     private int fps;
+
+    @JsonProperty("GOP")
     private int gop;
+
+    @JsonProperty("Height")
     private int height;
+
+    @JsonProperty("Pack")
     private String pack;
+
+    @JsonProperty("Profile")
     private String profile;
+
+    @JsonProperty("Quality")
     private int quality;
+
+    @JsonProperty("QualityRange")
     private int qualityRange;
+
+    @JsonProperty("Width")
     private int width;
+
+    //Default constructor to satisfy Jackson ...
+    public VideoEncoding() {}
 
     public VideoEncoding(int bitrate, String bitrateControl, String compression, String customResolutionName, int fps, int gop, int height, String pack, String profile, int quality, int qualityRange, int width) {
         this.bitrate = bitrate;
