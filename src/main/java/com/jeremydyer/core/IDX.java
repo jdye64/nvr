@@ -16,10 +16,7 @@ public class IDX {
     private DahuaIDXEvent idxEvent;
 
     //IDX File encoding information
-    private boolean audioEnabled;
-    private AudioEncoding audioEncoding;
-    private boolean videoEnabled;
-    private VideoEncoding videoEncoding;
+    private DahuaIDXEncoding idxEncoding;
 
     public String toString() {
         return String.format("IDX[path: %s, idxEvent: %s]", idxPath, idxEvent);
@@ -44,35 +41,11 @@ public class IDX {
         this.idxEvent = idxEvent;
     }
 
-    public boolean isAudioEnabled() {
-        return audioEnabled;
+    public DahuaIDXEncoding getIdxEncoding() {
+        return idxEncoding;
     }
 
-    public void setAudioEnabled(boolean audioEnabled) {
-        this.audioEnabled = audioEnabled;
-    }
-
-    public AudioEncoding getAudioEncoding() {
-        return audioEncoding;
-    }
-
-    public void setAudioEncoding(AudioEncoding audioEncoding) {
-        this.audioEncoding = audioEncoding;
-    }
-
-    public boolean isVideoEnabled() {
-        return videoEnabled;
-    }
-
-    public void setVideoEnabled(boolean videoEnabled) {
-        this.videoEnabled = videoEnabled;
-    }
-
-    public VideoEncoding getVideoEncoding() {
-        return videoEncoding;
-    }
-
-    public void setVideoEncoding(VideoEncoding videoEncoding) {
-        this.videoEncoding = videoEncoding;
+    public void setIdxEncoding(DahuaIDXEncoding idxEncoding) {
+        this.idxEncoding = idxEncoding;
     }
 }

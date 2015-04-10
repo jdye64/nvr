@@ -58,11 +58,13 @@ public class IDXFactory {
                         logger.debug("Creating DahuaIDXEvent from JSON: " + line);
                         idx.setIdxEvent(DahuaIDXEventFactory.createDahuaIDXEventFromJSON(line));
                     } else if (lineCount == 1) {
-
+                        logger.debug("Creating DahuaEncoding from JSON: " + line);
+                        idx.setIdxEncoding(DahuaIDXEncodingFactory.createDahuaIDXEncodingFromJSON(line));
                     } else {
                         //Just exit the loop because really we don't care about the frames right now
                         break;
                     }
+                    lineCount++;
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
