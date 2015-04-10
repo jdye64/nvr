@@ -27,31 +27,16 @@ public class DirectoryWatcher
     private boolean trace = false;
     private NVRVideoFileEventService fileEventService = null;
 
-    private ArrayList<String> dirsToIgnore = new ArrayList<>();
-
     @SuppressWarnings("unchecked")
     public static <T> WatchEvent<T> cast(WatchEvent<?> event) {
         return (WatchEvent<T>)event;
-    }
-
-    private boolean ignoreDirectory(Path dir) {
-        if (dir != null && dir.toFile().isDirectory()) {
-            String d = dir.getFileName().toString();
-            logger.info("Checking if directory: " + d + " should be ignored");
-            for (String dirName : dirsToIgnore) {
-                if (dirName.equals(d)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
      * Register the given directory with the WatchService
      */
     private void register(Path dir) throws IOException {
-        if (dir != null && !ignoreDirectory(dir)) {
+        if (dir != null) {
             WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
             if (trace) {
                 Path prev = keys.get(key);
@@ -105,9 +90,6 @@ public class DirectoryWatcher
 
         // enable trace after initial registration
         this.trace = true;
-
-        //TODO: These should be loaded from somewhere else later
-        dirsToIgnore.add("lost+found");
     }
 
     @Override
