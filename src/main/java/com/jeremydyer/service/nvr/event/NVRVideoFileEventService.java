@@ -77,6 +77,8 @@ public class NVRVideoFileEventService
         Path name = ev.context();
         Path child = dir.resolve(name);
 
+        logger.info(child.toString() + " Event: " + event.kind().toString());
+
         if (event.kind() == ENTRY_CREATE) {
             for (VideoFileEventHandler hand : this.handlers) {
                 hand.created(child);
