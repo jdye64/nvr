@@ -105,6 +105,9 @@ public class DirectoryWatcher
 
         // enable trace after initial registration
         this.trace = true;
+
+        //TODO: These should be loaded from somewhere else later
+        dirsToIgnore.add("lost+found");
     }
 
     @Override
