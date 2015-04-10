@@ -43,9 +43,9 @@ public class UberHandler
                 Video video = VideoFactory.createVideoFromPath(davPath);
                 if (video != null) {
                     video = videoDAO.save(video);
+                    logger.debug("VideoDAO DB: " + videoDAO.toString());
                     if (DahuaFileNameUtil.isMotionEvent(video.getFullFileName())) {
                         vcs.add(video);
-                        logger.info(vcs.toString());
                         menm.motionEventDetected(video);
                     } else {
                         //Not a motion event for now lets just do nothing ...
