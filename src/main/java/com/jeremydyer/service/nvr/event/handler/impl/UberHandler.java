@@ -37,8 +37,10 @@ public class UberHandler
     public void created(Path path) {
         logger.debug(this.getClass().getName() + " created " + path.toString());
         if (path != null) {
-            if (DahuaFileNameUtil.isDavFile(path.toString())) {
-                Video video = VideoFactory.createVideoFromPath(path);
+            if (DahuaFileNameUtil.isIDXFile(path.toString())) {
+                //The IDX file is created after the .dav file so we can assume the .dav file is present at this point.
+                Path davPath = DahuaFileNameUtil.davPathForIDXPath(path.toString());
+                Video video = VideoFactory.createVideoFromPath(davPath);
                 if (video != null) {
                     video = videoDAO.save(video);
                     if (DahuaFileNameUtil.isMotionEvent(video.getFullFileName())) {

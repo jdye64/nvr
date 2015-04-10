@@ -11,6 +11,18 @@ import java.nio.file.Paths;
  */
 public class DahuaFileNameUtil {
 
+    public static boolean isIDXFile(String fullFileName) {
+        if (fullFileName != null) {
+            if (fullFileName.endsWith(".idx")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Determines if the Path is a Dahua IP camera .dav file.
      *
@@ -54,6 +66,15 @@ public class DahuaFileNameUtil {
         if (fullFileName != null && isDavFile(fullFileName)) {
             Path idx = Paths.get(FilenameUtils.removeExtension(fullFileName) + ".idx");
             return idx;
+        } else {
+            return null;
+        }
+    }
+
+    public static Path davPathForIDXPath(String idxFullName) {
+        if (idxFullName != null && isIDXFile(idxFullName)) {
+            Path davPath = Paths.get(FilenameUtils.removeExtension(idxFullName) + ".dav");
+            return davPath;
         } else {
             return null;
         }

@@ -1,7 +1,6 @@
 package com.jeremydyer.service.nvr.event;
 
 import com.jeremydyer.NVRConfiguration;
-import com.jeremydyer.core.Video;
 import com.jeremydyer.dao.VideoDAO;
 import com.jeremydyer.service.DirectoryWatcher;
 import com.jeremydyer.service.VideoConversionService;
