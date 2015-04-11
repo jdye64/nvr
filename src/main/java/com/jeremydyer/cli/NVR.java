@@ -4,9 +4,9 @@ import com.jeremydyer.NVRConfiguration;
 import com.jeremydyer.dao.VideoDAO;
 import com.jeremydyer.dao.impl.InMemoryVideoDAOImpl;
 import com.jeremydyer.service.nvr.event.NVRVideoFileEventService;
-import com.jeremydyer.service.nvr.index.ApplicationStartupIndexingThread;
-import com.jeremydyer.service.storage.DailyStorageReportRunnable;
-import com.jeremydyer.service.storage.StorageMetricsRunnable;
+import com.jeremydyer.service.nvr.index.ApplicationStartupIndexingRunnable;
+import com.jeremydyer.service.runnable.DailyStorageReportRunnable;
+import com.jeremydyer.service.runnable.StorageMetricsRunnable;
 import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;
 import it.sauronsoftware.cron4j.Scheduler;
@@ -37,7 +37,7 @@ public class NVR
         VideoDAO videoDAO = new InMemoryVideoDAOImpl();
 
         //Run the one time startup processes here.
-        ApplicationStartupIndexingThread initialIndexer = new ApplicationStartupIndexingThread(nvrConfiguration, videoDAO);
+        ApplicationStartupIndexingRunnable initialIndexer = new ApplicationStartupIndexingRunnable(nvrConfiguration, videoDAO);
         initialIndexer.run();
 
         //*** Start all continuously running threads ***

@@ -3,6 +3,8 @@ package com.jeremydyer.dao.impl;
 import com.jeremydyer.core.Camera;
 import com.jeremydyer.core.Video;
 import com.jeremydyer.dao.VideoDAO;
+import com.makeandbuild.vessl.persistence.jdbc.BaseDaoImpl;
+import com.makeandbuild.vessl.persistence.jdbc.ReflectionBasedJdbcMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,13 +15,13 @@ import java.util.List;
  * Created by jeremydyer on 4/10/15.
  */
 public class JDBCVideoDAOImpl
-    implements VideoDAO {
+        extends BaseDaoImpl<Video, String> implements VideoDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(JDBCVideoDAOImpl.class);
 
-    @Override
-    public Video save(Video video) {
-        return null;
+    public JDBCVideoDAOImpl() {
+        super(ReflectionBasedJdbcMapper.proxy(Video.class), Video.class, String.class);
+        //this.addQueryJoinSupport("user", "INNER JOIN user ON (user.user_id = event.user_id)", ReflectionBasedJdbcMapper.proxy(User.class));
     }
 
     @Override

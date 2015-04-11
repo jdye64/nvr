@@ -1,4 +1,4 @@
-package com.jeremydyer.service.storage;
+package com.jeremydyer.service.runnable;
 
 import com.jeremydyer.NVRConfiguration;
 import com.jeremydyer.service.email.EmailManager;
@@ -9,10 +9,10 @@ import java.io.File;
 import java.util.Date;
 
 /**
- * Ran daily to email me a report of the amount of storage that I have left on the NVR mount. Two improvements are
+ * Ran daily to email me a report of the amount of runnable that I have left on the NVR mount. Two improvements are
  * planned for this later.
  * 1) More detailed info in the email, daily usage breakdowns, camera usage breakdown, etc
- * 2) Will be replaced by a more sophisticated system that simply handles the storage management rather than alerting me
+ * 2) Will be replaced by a more sophisticated system that simply handles the runnable management rather than alerting me
  *
  * Created by jeremydyer on 3/22/15.
  */

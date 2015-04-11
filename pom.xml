@@ -84,6 +84,11 @@
             <version>${jmdns.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.makeandbuild</groupId>
+            <artifactId>vessl</artifactId>
+            <version>1.0.52</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>

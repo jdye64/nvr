@@ -1,18 +1,45 @@
 package com.jeremydyer.core;
 
+import com.makeandbuild.vessl.persistence.jdbc.SaveWhen;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by jeremydyer on 3/18/15.
  */
+@Table(name = "event")
 public class Video {
 
+    @Id
+    @Column(name = "video_id")
+    @SaveWhen(insert = true, update = false)
     private long id;
+
+    @Column(name = "size")
+    @SaveWhen(insert = true, update = true)
     private long size;
+
+    @Column(name = "startDate")
+    @SaveWhen(insert = true, update = true)
     private Date startDate;
+
+    @Column(name = "endDate")
+    @SaveWhen(insert = true, update = true)
     private Date endDate;
+
+    @Column(name = "fullFileName")
+    @SaveWhen(insert = true, update = true)
     private String fullFileName;
+
+    @Column(name = "idx")
+    @SaveWhen(insert = true, update = true)
     private IDX idx;
+
+    @Column(name = "motionDetectEvent")
+    @SaveWhen(insert = true, update = true)
     private boolean motionDetectEvent = false;
 
     public Video(String fullFileName) {

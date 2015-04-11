@@ -15,15 +15,15 @@ import java.nio.file.attribute.BasicFileAttributes;
 /**
  * Created by jeremydyer on 4/10/15.
  */
-public class ApplicationStartupIndexingThread
+public class ApplicationStartupIndexingRunnable
     implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationStartupIndexingThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationStartupIndexingRunnable.class);
 
     private NVRConfiguration configuration = null;
     private VideoDAO videoDAO = null;
 
-    public ApplicationStartupIndexingThread(NVRConfiguration configuration, VideoDAO videoDAO) {
+    public ApplicationStartupIndexingRunnable(NVRConfiguration configuration, VideoDAO videoDAO) {
         this.configuration = configuration;
         this.videoDAO = videoDAO;
     }

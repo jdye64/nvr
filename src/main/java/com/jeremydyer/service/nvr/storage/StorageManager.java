@@ -20,7 +20,7 @@ public class StorageManager {
     }
 
     /**
-     * Archives the files in the primary storage location to the Archive storage location
+     * Archives the files in the primary runnable location to the Archive runnable location
      */
     public void archiveFiles() {
         System.out.println("Archiving files in: " + this.nvrConfiguration.getNvrVideoDir().toString());
