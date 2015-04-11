@@ -4,6 +4,7 @@ import com.jeremydyer.NVRConfiguration;
 import com.jeremydyer.dao.VideoDAO;
 import com.jeremydyer.dao.impl.InMemoryVideoDAOImpl;
 import com.jeremydyer.service.nvr.event.NVRVideoFileEventService;
+import com.jeremydyer.service.nvr.index.ApplicationStartupIndexingThread;
 import com.jeremydyer.service.storage.DailyStorageReportRunnable;
 import com.jeremydyer.service.storage.StorageMetricsRunnable;
 import io.dropwizard.cli.ConfiguredCommand;
@@ -34,6 +35,10 @@ public class NVR
 
         //Creates the global application instance objects.
         VideoDAO videoDAO = new InMemoryVideoDAOImpl();
+
+        //Run the one time startup processes here.
+        ApplicationStartupIndexingThread initialIndexer = new ApplicationStartupIndexingThread(nvrConfiguration, videoDAO);
+        initialIndexer.run();
 
         //*** Start all continuously running threads ***
 

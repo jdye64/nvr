@@ -44,6 +44,26 @@ public class DahuaFileNameUtil {
         }
     }
 
+    public static boolean isMP4File(String fullFileName) {
+        if (fullFileName != null) {
+            if (fullFileName.endsWith(".mp4")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isVideoFile(String fullFileName) {
+        if (isDavFile(fullFileName) || isMP4File(fullFileName)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Checks to make sure that a video is a dav file and motion event. Take not the file must also be a .dav file
      * for this to return true!
