@@ -5,10 +5,8 @@ import com.codahale.metrics.MetricRegistry;
 import com.jeremydyer.cli.*;
 import com.jeremydyer.resource.VideoStream;
 import io.dropwizard.Application;
-import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +31,6 @@ public class NVRApplication extends Application<NVRConfiguration> {
     @Override
     public void initialize(Bootstrap<NVRConfiguration> bootstrap) {
         bootstrap.addCommand(new NVR("NVR", "Network Video Recorder Full Stack"));
-        bootstrap.addCommand(new NVRScheduleRecorder("NVRScheduleRecorder", "Records video from IP cameras based on a time schedule"));
-        bootstrap.addCommand(new NVRStorageGrimReaper("NVRStorageGrimReaper", "Reclaims storage on the main storage device"));
-        bootstrap.addCommand(new NVRBatchBuildVideoIndex("NVRBatchBuildVideoIndex", "Examines all of the current video files and rebuilds the video index database"));
     }
 
     @Override
@@ -48,8 +43,5 @@ public class NVRApplication extends Application<NVRConfiguration> {
         MetricRegistry metricsRegistry = new MetricRegistry();
         final JmxReporter reporter = JmxReporter.forRegistry(metricsRegistry).build();
         reporter.start();
-
-        //final DBIFactory factory = new DBIFactory();
-        //final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
     }
 }

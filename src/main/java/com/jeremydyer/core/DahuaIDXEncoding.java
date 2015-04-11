@@ -2,9 +2,7 @@ package com.jeremydyer.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.jeremydyer.core.audio.AudioEncoding;
-import com.jeremydyer.core.video.Frame;
 import com.jeremydyer.core.video.VideoEncoding;
 
 import java.util.List;
@@ -35,18 +33,14 @@ public class DahuaIDXEncoding {
     @JsonProperty("Video")
     private VideoEncoding videoEncoding;
 
-    @JsonIgnore
-    private List<Frame> frames;
-
     //Default constructor to satisfy Jackson ...
     public DahuaIDXEncoding() {}
 
-    public DahuaIDXEncoding(boolean audioEnabled, AudioEncoding audioEncoding, boolean videoEnabled, VideoEncoding videoEncoding, List<Frame> frames) {
+    public DahuaIDXEncoding(boolean audioEnabled, AudioEncoding audioEncoding, boolean videoEnabled, VideoEncoding videoEncoding) {
         this.audioEnabled = audioEnabled;
         this.audioEncoding = audioEncoding;
         this.videoEnabled = videoEnabled;
         this.videoEncoding = videoEncoding;
-        this.frames = frames;
     }
 
     public boolean isAudioEnabled() {
@@ -81,11 +75,4 @@ public class DahuaIDXEncoding {
         this.videoEncoding = videoEncoding;
     }
 
-    public List<Frame> getFrames() {
-        return frames;
-    }
-
-    public void setFrames(List<Frame> frames) {
-        this.frames = frames;
-    }
 }
