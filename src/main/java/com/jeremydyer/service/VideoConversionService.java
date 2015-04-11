@@ -77,10 +77,10 @@ public class VideoConversionService {
             if (origFile != null && origFile.exists()) {
                 //Builds the Process that will be used to convert the .dav file to .mp4
                 String outputFile = origFile.getParent() + File.separator + origFile.getName().replace(".dav", ".mp4");
-                ProcessBuilder pb = new ProcessBuilder("ffmpeg", "-y", "-i", dav.getFullFileName(), "-vcodec", "libx264", "-crf", "24", outputFile);
+                ProcessBuilder pb = new ProcessBuilder("avconv", "-i", dav.getFullFileName(), "-c", "copy", outputFile);
                 pb.directory(origFile.getParentFile());
 
-                System.out.println("Running FFMPEG thread for Video: " + dav.getFullFileName() + " -> " + outputFile);
+                System.out.println("Running AVCONV thread for Video: " + dav.getFullFileName() + " -> " + outputFile);
                 try {
                     Process p = pb.start();
                     p.waitFor();
