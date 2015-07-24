@@ -20,6 +20,7 @@
         <dbcp.version>2.1</dbcp.version>
         <cp.version>0.9.5</cp.version>
         <jmdns.version>3.4.1</jmdns.version>
+        <es.version>1.7.0</es.version>
     </properties>
 
     <dependencies>
@@ -88,6 +89,13 @@
             <artifactId>vessl</artifactId>
             <version>1.0.52</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${es.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

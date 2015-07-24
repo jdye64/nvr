@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -32,6 +33,14 @@ public class DailyStorageReportRunnable
     public void run() {
         logger.debug("DailyStorageReportRunnable.run()");
         File f = new File(nvrConfiguration.getNvrVideoDir());
+
+        //Generates the metrics for yesterday
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, (cal.get(Calendar.DAY_OF_MONTH) - 1));
+        Date yesterday = cal.getTime();
+
+        logger.debug("Generating DailyStorageReport for: " + yesterday);
+
         StringBuilder sb = new StringBuilder();
         sb.append(new Date());
         sb.append(" Total Usable Space: ");

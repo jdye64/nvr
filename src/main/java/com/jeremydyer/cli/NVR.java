@@ -49,7 +49,7 @@ public class NVR
         //*** End continuously running threads ***
 
         // Schedule all of the NVR tasks
-        s.schedule("0 * * * *", new StorageMetricsRunnable(nvrConfiguration));  //Every hour
+        s.schedule("* * * * *", new StorageMetricsRunnable(nvrConfiguration));  //Every hour
         s.schedule("0 8 * * *", new DailyStorageReportRunnable(nvrConfiguration));
 
         // Starts the scheduler.
