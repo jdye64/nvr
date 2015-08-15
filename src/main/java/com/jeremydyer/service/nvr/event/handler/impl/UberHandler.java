@@ -7,6 +7,11 @@ import com.jeremydyer.service.VideoConversionService;
 import com.jeremydyer.service.notification.MotionEventNoficationManager;
 import com.jeremydyer.service.nvr.event.handler.VideoFileEventHandler;
 import com.jeremydyer.util.DahuaFileNameUtil;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.response.UpdateResponse;
+import org.apache.solr.common.SolrInputDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +34,9 @@ public class UberHandler
     private VideoConversionService vcs = VideoConversionService.getInstance();
     private MotionEventNoficationManager menm = MotionEventNoficationManager.getInstance();
 
+    private String urlString = "http://10.0.1.17:8983/solr/techproducts";
+    private SolrClient solr = new HttpSolrClient(urlString);
+
     public UberHandler(VideoDAO videoDAO) {
         this.videoDAO = videoDAO;
     }
@@ -47,7 +55,20 @@ public class UberHandler
                     if (DahuaFileNameUtil.isMotionEvent(video.getFullFileName())) {
                         vcs.add(video);
                         menm.motionEventDetected(video);
-                    } else {
+
+                        try {
+                            //Index the event to Solr for online viewing.
+                            SolrInputDocument document = new SolrInputDocument();
+                            document.addField("id", "552199");
+                            document.addField("name", "Gouda cheese wheel");
+                            document.addField("price", "49.99");
+                            UpdateResponse response = solr.add(document);
+
+                            solr.commit();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
                         //Not a motion event for now lets just do nothing ...
                     }
                 } else {

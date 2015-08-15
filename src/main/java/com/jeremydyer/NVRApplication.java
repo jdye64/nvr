@@ -31,6 +31,7 @@ public class NVRApplication extends Application<NVRConfiguration> {
     @Override
     public void initialize(Bootstrap<NVRConfiguration> bootstrap) {
         bootstrap.addCommand(new NVR("NVR", "Network Video Recorder Full Stack"));
+        bootstrap.addCommand(new Solr("Solr", "Solr Testing"));
     }
 
     @Override

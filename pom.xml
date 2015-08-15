@@ -21,6 +21,7 @@
         <cp.version>0.9.5</cp.version>
         <jmdns.version>3.4.1</jmdns.version>
         <es.version>1.7.0</es.version>
+        <solr.version>5.2.1</solr.version>
     </properties>
 
     <dependencies>
@@ -91,9 +92,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>${es.version}</version>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>${solr.version}</version>
         </dependency>
 
         <dependency>
