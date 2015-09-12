@@ -45,7 +45,7 @@ public class VideoConversionService {
                 new Thread(new FFMPEGThread(f)).start();
             }
         } else {
-            logger.info("Queue is already saturated. Waiting for available threads to free up");
+            logger.info("Queue is already saturated. Waiting for available threads to free up. Queue Depth: " + queue.size());
         }
     }
 
