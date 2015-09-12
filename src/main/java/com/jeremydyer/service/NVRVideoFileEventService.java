@@ -1,13 +1,7 @@
-package com.jeremydyer.service.nvr.event;
+package com.jeremydyer.service;
 
 import com.jeremydyer.NVRConfiguration;
-import com.jeremydyer.dao.VideoDAO;
-import com.jeremydyer.service.DirectoryWatcher;
-import com.jeremydyer.service.VideoConversionService;
-import com.jeremydyer.service.nvr.event.handler.VideoFileEventHandler;
-import com.jeremydyer.service.nvr.event.handler.impl.MotionVideoFileEventHandler;
-import com.jeremydyer.service.nvr.event.handler.impl.UberHandler;
-import com.jeremydyer.service.nvr.event.handler.impl.VideoIndexerHandler;
+import com.jeremydyer.util.DahuaFileNameUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +9,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
@@ -35,20 +27,8 @@ public class NVRVideoFileEventService
 
     private VideoConversionService videoConversionService = VideoConversionService.getInstance();
     private NVRConfiguration nvrConfiguration = null;
-    private VideoDAO videoDAO = null;
 
-    private List<VideoFileEventHandler> handlers = null;
-
-    public NVRVideoFileEventService(NVRConfiguration nvrConfiguration, VideoDAO videoDAO) {
-
-        this.videoDAO = videoDAO;
-
-       //TODO: This smells bad. Prefer some sort of dependency injection later.
-       handlers = new ArrayList<>();
-       //handlers.add(new MotionVideoFileEventHandler());
-       //handlers.add(new VideoIndexerHandler());
-        handlers.add(new UberHandler(this.videoDAO));
-
+    public NVRVideoFileEventService(NVRConfiguration nvrConfiguration) {
        this.nvrConfiguration = nvrConfiguration;
     }
 
@@ -79,17 +59,27 @@ public class NVRVideoFileEventService
         logger.trace(child.toString() + " Event: " + event.kind().toString());
 
         if (event.kind() == ENTRY_CREATE) {
-            for (VideoFileEventHandler hand : this.handlers) {
-                hand.created(child);
+            logger.debug(this.getClass().getName() + " created " + child.toString());
+            if (child != null) {
+                if (DahuaFileNameUtil.isIDXFile(child.toString())) {
+                    //The IDX file is created after the .dav file so we can assume the .dav file is present at this point.
+                    Path davPath = DahuaFileNameUtil.davPathForIDXPath(child.toString());
+                    if (davPath != null) {
+                        if (DahuaFileNameUtil.isMotionEvent(davPath.toString())) {
+                            logger.info("Motion event. Converting ...");
+                            videoConversionService.add(davPath);
+                        }
+                    } else {
+                        logger.error("Failed to create Video object from video file path: " + davPath.toString());
+                    }
+                } else {
+                    logger.debug(child.toString() + " is not a Dahua .dav file so I'm not interested ...");
+                }
             }
         } else if (event.kind() == ENTRY_MODIFY) {
-            for (VideoFileEventHandler hand : this.handlers) {
-                hand.modified(child);
-            }
+            logger.info("Modified: " + child.toString());
         } else if (event.kind() == ENTRY_DELETE) {
-            for (VideoFileEventHandler hand : this.handlers) {
-                hand.deleted(child);
-            }
+            logger.info("Deleted: " + child.toString());
         } else {
             logger.warn("Encountered unknown java.nio file event: " + event.kind());
         }

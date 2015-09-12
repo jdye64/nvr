@@ -2,7 +2,6 @@ package com.jeremydyer.util;
 
 import org.apache.commons.io.FilenameUtils;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

@@ -1,11 +1,11 @@
 package com.jeremydyer.service;
 
-import com.jeremydyer.core.Video;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
@@ -28,9 +28,9 @@ public class VideoConversionService {
         return instance;
     }
 
-    private ConcurrentLinkedDeque<Video> queue = new ConcurrentLinkedDeque<Video>();
+    private ConcurrentLinkedDeque<Path> queue = new ConcurrentLinkedDeque<Path>();
 
-    public void add(Video davFile) {
+    public void add(Path davFile) {
         queue.add(davFile);
         runThread();
     }
@@ -40,7 +40,7 @@ public class VideoConversionService {
 
     private void runThread() {
         if (runningThreads < maxRunningThreads) {
-            Video f = queue.poll();
+            Path f = queue.poll();
             if (f != null) {
                 new Thread(new FFMPEGThread(f)).start();
             }
@@ -62,9 +62,9 @@ public class VideoConversionService {
 
     private class FFMPEGThread implements Runnable {
 
-        private Video dav;
+        private Path dav;
 
-        public FFMPEGThread(Video dav) {
+        public FFMPEGThread(Path dav) {
             incrementRunningThreads();
             this.dav = dav;
         }
@@ -73,7 +73,7 @@ public class VideoConversionService {
         public void run() {
 
             //Create the File object from the String fullName
-            File origFile = new File(dav.getFullFileName());
+            File origFile = new File(dav.toString());
             if (origFile != null && origFile.exists()) {
                 //Builds the Process that will be used to convert the .dav file to .mp4
                 String outputFile = origFile.getParent() + File.separator + origFile.getName().replace(".dav", ".mp4");
@@ -81,16 +81,16 @@ public class VideoConversionService {
                 ProcessBuilder pb = new ProcessBuilder("ffmpeg", "-y", "-i", origFile.getAbsolutePath(), "-vcodec", "libx264", "-crf", "24", outputFile);
                 pb.directory(origFile.getParentFile());
 
-                System.out.println("Running FFMPEG thread for Video: " + dav.getFullFileName() + " -> " + outputFile);
+                System.out.println("Running FFMPEG thread for Video: " + dav.toString() + " -> " + outputFile);
                 try {
                     Process p = pb.start();
                     p.waitFor();
 
                     //Now delete the original .dav file since it is no longer needed
                     if (origFile.delete()) {
-                        System.out.println("Successfully deleted: " + dav.getFullFileName());
+                        System.out.println("Successfully deleted: " + dav.toString());
                     } else {
-                        System.out.println("Failed to delete: " + dav.getFullFileName());
+                        System.out.println("Failed to delete: " + dav.toString());
                     }
 
                 } catch (IOException e) {
@@ -99,7 +99,7 @@ public class VideoConversionService {
                     e.printStackTrace();
                 }
             } else {
-                logger.warn("Dav original file could not be found: " + dav.getFullFileName());
+                logger.warn("Dav original file could not be found: " + dav.toString());
             }
 
             //After processing is complete ...

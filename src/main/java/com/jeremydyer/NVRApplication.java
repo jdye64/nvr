@@ -3,7 +3,6 @@ package com.jeremydyer;
 import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.jeremydyer.cli.*;
-import com.jeremydyer.resource.VideoStream;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -31,15 +30,12 @@ public class NVRApplication extends Application<NVRConfiguration> {
     @Override
     public void initialize(Bootstrap<NVRConfiguration> bootstrap) {
         bootstrap.addCommand(new NVR("NVR", "Network Video Recorder Full Stack"));
-        bootstrap.addCommand(new Solr("Solr", "Solr Testing"));
     }
 
     @Override
     public void run(NVRConfiguration configuration,
                     Environment environment) {
         logger.info(NVRApplication.class.getName() + " Starting");
-        final VideoStream resource = new VideoStream();
-        environment.jersey().register(resource);
 
         MetricRegistry metricsRegistry = new MetricRegistry();
         final JmxReporter reporter = JmxReporter.forRegistry(metricsRegistry).build();
