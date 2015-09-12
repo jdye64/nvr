@@ -53,23 +53,22 @@ public class UberHandler
                     video = videoDAO.save(video);
                     logger.debug("VideoDAO DB: " + videoDAO.toString());
                     if (DahuaFileNameUtil.isMotionEvent(video.getFullFileName())) {
+                        logger.info("Motion event. Converting ...");
                         vcs.add(video);
                         menm.motionEventDetected(video);
 
-                        try {
-                            //Index the event to Solr for online viewing.
-                            SolrInputDocument document = new SolrInputDocument();
-                            document.addField("id", "552199");
-                            document.addField("name", "Gouda cheese wheel");
-                            document.addField("price", "49.99");
-                            UpdateResponse response = solr.add(document);
-
-                            solr.commit();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-
-                        //Not a motion event for now lets just do nothing ...
+//                        try {
+//                            //Index the event to Solr for online viewing.
+//                            SolrInputDocument document = new SolrInputDocument();
+//                            document.addField("id", "552199");
+//                            document.addField("name", "Gouda cheese wheel");
+//                            document.addField("price", "49.99");
+//                            UpdateResponse response = solr.add(document);
+//
+//                            solr.commit();
+//                        } catch (Exception ex) {
+//                            ex.printStackTrace();
+//                        }
                     }
                 } else {
                     logger.error("Failed to create Video object from video file path: " + path.toString());
