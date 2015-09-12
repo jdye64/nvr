@@ -45,18 +45,18 @@ public class VideoConversionService {
                 new Thread(new FFMPEGThread(f)).start();
             }
         } else {
-            System.out.println("Queue is already saturated. Waiting for available threads to free up");
+            logger.info("Queue is already saturated. Waiting for available threads to free up");
         }
     }
 
     private synchronized void incrementRunningThreads() {
         runningThreads++;
-        System.out.println("Incremented Running threads -> " + runningThreads);
+        logger.info("Incremented Running threads -> " + runningThreads);
     }
 
     private synchronized void decrementRunningThreads() {
         runningThreads--;
-        System.out.println("Decremented Running threads -> " + runningThreads);
+        logger.info("Decremented Running threads -> " + runningThreads);
         runThread();
     }
 
@@ -81,16 +81,16 @@ public class VideoConversionService {
                 ProcessBuilder pb = new ProcessBuilder("ffmpeg", "-y", "-i", origFile.getAbsolutePath(), "-vcodec", "libx264", "-crf", "24", outputFile);
                 pb.directory(origFile.getParentFile());
 
-                System.out.println("Running FFMPEG thread for Video: " + dav.toString() + " -> " + outputFile);
+                logger.info("Running FFMPEG thread for Video: " + dav.toString() + " -> " + outputFile);
                 try {
                     Process p = pb.start();
                     p.waitFor();
 
                     //Now delete the original .dav file since it is no longer needed
                     if (origFile.delete()) {
-                        System.out.println("Successfully deleted: " + dav.toString());
+                        logger.info("Successfully deleted: " + dav.toString());
                     } else {
-                        System.out.println("Failed to delete: " + dav.toString());
+                        logger.info("Failed to delete: " + dav.toString());
                     }
 
                 } catch (IOException e) {

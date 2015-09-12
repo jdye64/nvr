@@ -77,7 +77,7 @@ public class NVRVideoFileEventService
                 }
             }
         } else if (event.kind() == ENTRY_MODIFY) {
-            logger.info("Modified: " + child.toString());
+            //logger.info("Modified: " + child.toString());
         } else if (event.kind() == ENTRY_DELETE) {
             logger.info("Deleted: " + child.toString());
         } else {
